@@ -38,32 +38,43 @@ const MesCv = () => {
   };
 
   if (isLoading) {
-    return <p>Chargement de vos CV...</p>;
+    return <p style={styles.loading}>Chargement de vos CV...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p style={styles.error}>{error}</p>;
   }
 
   return (
-    <div className="mes-cv-container">
-      <h1>Mes CV</h1>
+    <div style={styles.container}>
+      <h1 style={styles.title}>Mes CV</h1>
       {cvs.length === 0 ? (
-        <p>Vous n'avez aucun CV pour le moment. Créez-en un pour commencer !</p>
+        <p style={styles.loading}>
+          Vous n'avez aucun CV pour le moment. Créez-en un pour commencer !
+        </p>
       ) : (
-        <div className="cv-list">
+        <div style={styles.cvList}>
           {cvs.map((cv) => (
-            <div key={cv._id} className="cv-card">
-              <h2>
+            <div key={cv._id} style={styles.cvCard}>
+              <h2 style={styles.cvCardTitle}>
                 {cv.nom} {cv.prenom}
               </h2>
-              <p><strong>Description :</strong> {cv.description}</p>
-              <p><strong>Expérience Pédagogique :</strong> {cv.experiencePedagogique}</p>
-              <p><strong>Expérience Professionnelle :</strong> {cv.experiencePro}</p>
-              <p><strong>Visible :</strong> {cv.is_visible ? "Oui" : "Non"}</p>
+              <p style={styles.cvCardDetail}>
+                <strong>Description :</strong> {cv.description}
+              </p>
+              <p style={styles.cvCardDetail}>
+                <strong>Expérience Pédagogique :</strong>{" "}
+                {cv.experiencePedagogique}
+              </p>
+              <p style={styles.cvCardDetail}>
+                <strong>Expérience Professionnelle :</strong> {cv.experiencePro}
+              </p>
+              <p style={styles.cvCardDetail}>
+                <strong>Visible :</strong> {cv.is_visible ? "Oui" : "Non"}
+              </p>
               <button
                 onClick={() => handleEditCv(cv._id)}
-                className="edit-cv-button"
+                style={styles.editButton}
               >
                 Modifier
               </button>
@@ -73,6 +84,68 @@ const MesCv = () => {
       )}
     </div>
   );
+};
+
+const styles = {
+  container: {
+    width: "100%",
+    maxWidth: "800px",
+    margin: "0 auto",
+    padding: "20px",
+    backgroundColor: "#fff",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+    borderRadius: "8px",
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: "20px",
+    fontSize: "24px",
+    color: "#333",
+  },
+  loading: {
+    textAlign: "center",
+    fontSize: "18px",
+    color: "#666",
+  },
+  error: {
+    textAlign: "center",
+    color: "red",
+    fontSize: "18px",
+    marginBottom: "20px",
+  },
+  cvList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+  },
+  cvCard: {
+    padding: "20px",
+    backgroundColor: "#f9f9f9",
+    boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
+    borderRadius: "8px",
+    textAlign: "left",
+  },
+  cvCardTitle: {
+    fontSize: "20px",
+    marginBottom: "10px",
+    color: "#2c3e50",
+  },
+  cvCardDetail: {
+    marginBottom: "8px",
+    fontSize: "14px",
+    color: "#555",
+  },
+  editButton: {
+    padding: "10px",
+    backgroundColor: "#3498db",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "14px",
+    marginTop: "10px",
+    alignSelf: "flex-start",
+  },
 };
 
 export default MesCv;
