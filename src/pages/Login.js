@@ -16,7 +16,7 @@ const Login = () => {
 
       localStorage.setItem("authToken", token);
 
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Erreur lors de la connexion");
     }

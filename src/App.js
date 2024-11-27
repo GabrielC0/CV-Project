@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import './Style.css'; 
+import "./Style.css";
 
-import ListeCvVisible from './pages/ListeCvVisible';
+import ListeCvVisible from "./pages/ListeCvVisible";
 import Login from "./pages/Login";
-import Register from "./pages/Register"; 
+import Register from "./pages/Register";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -21,17 +21,30 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<ListeCvVisible />} />
+        {/* Liste CV accessible sans authentification */}
         <Route path="/cv/details/:id" element={<DetailsCv />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+
+        {/* Dashboard protégé par ProtectedRoute */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          {/* Enfant du DashboardLayout */}
           <Route index element={<Accueil />} />
           <Route path="mes-cv" element={<MesCv />} />
           <Route path="create-cv" element={<CreateCv />} />
           <Route path="cv/updateCv/:id" element={<UpdateCv />} />
           <Route path="reco" element={<MesReco />} />
         </Route>
+
+        {/* Liste CV accessible publiquement */}
+        <Route path="/cv-visible" element={<ListeCvVisible />} />
       </Routes>
     </Router>
   );

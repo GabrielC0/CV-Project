@@ -5,14 +5,17 @@ import "../css/ListeCvVisible.css";
 
 const ListeCvVisible = () => {
   const [cvs, setCvs] = useState([]);
+  const [filteredCvs, setFilteredCvs] = useState([]);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   const fetchVisibleCvs = async () => {
     try {
       const response = await api.get("/cv/show-visible-cv");
       setCvs(response.data.cvs);
+      setFilteredCvs(response.data.cvs); // Initially set the filtered list to all CVs
     } catch (err) {
       setError(
         "Erreur lors du chargement des CVs : " +
@@ -29,6 +32,21 @@ const ListeCvVisible = () => {
     fetchVisibleCvs();
   }, []);
 
+  const handleSearchChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+
+    // Filter the CVs based on the search term
+    if (term === "") {
+      setFilteredCvs(cvs); 
+    } else {
+      const filtered = cvs.filter((cv) =>
+        `${cv.nom} ${cv.prenom}`.toLowerCase().includes(term.toLowerCase())
+      );
+      setFilteredCvs(filtered);
+    }
+  };
+
   const handleViewDetails = (cvId) => {
     if (isLoggedIn) {
       navigate(`/cv/details/${cvId}`);
@@ -39,10 +57,25 @@ const ListeCvVisible = () => {
 
   const handleLogin = () => navigate("/login");
   const handleRegister = () => navigate("/register");
+  const handleBack = () => navigate("/"); 
 
   return (
     <div className="listeCvVisible-container">
       <h1 className="listeCvVisible-title">Liste des CVs</h1>
+
+      <button className="listeCvVisible-back-button" onClick={handleBack}>
+        Retour à l'accueil
+      </button>
+
+      <div className="listeCvVisible-search">
+        <input
+          type="text"
+          className="listeCvVisible-search-input"
+          placeholder="Rechercher par nom ou prénom"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </div>
 
       {!isLoggedIn && (
         <div className="listeCvVisible-auth-buttons">
@@ -58,8 +91,8 @@ const ListeCvVisible = () => {
       {error && <div className="listeCvVisible-error">{error}</div>}
 
       <ul className="listeCvVisible-list">
-        {cvs.length > 0 ? (
-          cvs.map((cv) => (
+        {filteredCvs.length > 0 ? (
+          filteredCvs.map((cv) => (
             <li key={cv._id} className="listeCvVisible-item">
               <h3 className="listeCvVisible-item-title">
                 {cv.nom} {cv.prenom}
