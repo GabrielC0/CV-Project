@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
-import '../css/ListeCvVisible.css';
+import "../css/ListeCvVisible.css";
 
 const ListeCvVisible = () => {
   const [cvs, setCvs] = useState([]);
@@ -37,17 +37,23 @@ const ListeCvVisible = () => {
     }
   };
 
-  // const handleModifDetails = (cvId) => {
-  //   if (isLoggedIn) {
-  //     navigate(`/cv/updateCv/${cvId}`);
-  //   } else {
-  //     alert("Veuillez vous connecter pour modifier le cv");
-  //   }
-  // }
+  const handleLogin = () => navigate("/login");
+  const handleRegister = () => navigate("/register");
 
   return (
     <div className="listeCvVisible-container">
       <h1 className="listeCvVisible-title">Liste des CVs</h1>
+
+      {!isLoggedIn && (
+        <div className="listeCvVisible-auth-buttons">
+          <button className="listeCvVisible-button" onClick={handleLogin}>
+            Login
+          </button>
+          <button className="listeCvVisible-button" onClick={handleRegister}>
+            Register
+          </button>
+        </div>
+      )}
 
       {error && <div className="listeCvVisible-error">{error}</div>}
 
@@ -58,7 +64,9 @@ const ListeCvVisible = () => {
               <h3 className="listeCvVisible-item-title">
                 {cv.nom} {cv.prenom}
               </h3>
-              <p className="listeCvVisible-item-description">{cv.description}</p>
+              <p className="listeCvVisible-item-description">
+                {cv.description}
+              </p>
               <p className="listeCvVisible-item-description">
                 Expérience Pédagogique: {cv.experiencePedagogique}
               </p>
