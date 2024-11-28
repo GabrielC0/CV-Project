@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-  // baseURL: "http://localhost:5001/api",
-  baseURL: "https://cv-tech-back.onrender.com/api/",
+  // baseURL: "http://localhost:5001/api/",
+  baseURL: "https://cv-project-back.onrender.com/api/",
 });
-
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("authToken");
