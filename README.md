@@ -1,3 +1,11 @@
+# Groupe 8
+
+# Gabriel CHANGRENIER
+
+# Valeriya SHIN
+
+# William Yang
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
