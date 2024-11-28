@@ -34,7 +34,7 @@ const MesCv = () => {
   }, [token, navigate]);
 
   const handleEditCv = (id) => {
-    navigate(`/dashboard/cv/updateCv/${id}`);
+    navigate(`/cv/updateCv/${id}`);
   };
 
   if (isLoading) {
